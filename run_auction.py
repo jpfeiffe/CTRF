@@ -14,24 +14,24 @@ if __name__ == '__main__':
     parser.add_argument('--n_te_cnt_samples', default=100000, type=int, help='Control Testing Samples')
     parser.add_argument('--n_te_trt_samples', default=100000, type=int, help='Treatment Testing Samples')
     parser.add_argument('--n_te_rnd_samples', default=100000, type=int, help='Treatment Randomized Samples')
-    parser.add_argument('--n_features', default=20, type=int, help='Features for distribution')
+    parser.add_argument('--n_features', default=11, type=int, help='Features for distribution')
     parser.add_argument('--n_informative', default=10, type=int, help='Relevant Features')
     parser.add_argument('--n_clusters_per_class', default=10, type=int, help='Clusters per class')
-    parser.add_argument('--class_sep', default=3, type=float, help='Class separation')
+    parser.add_argument('--class_sep', default=1, type=float, help='Class separation')
 
     parser.add_argument('--oracle_n_estimators', default=100, type=int, help='Number of estimators for Oracle')
     parser.add_argument('--oracle_min_samples_leaf', default=100, type=int, help='Minimum number of samples for Oracle to use for labeling')
 
-    parser.add_argument('--auction_n_estimators', default=10, type=int, help='Number of estimators for Auction pclick models')
+    parser.add_argument('--auction_n_estimators', default=50, type=int, help='Number of estimators for Auction pclick models')
     parser.add_argument('--auction_max_leaf_nodes', default=100, type=int, help='Maximum tree leaf nodes for Auction pclick models to use for labeling')
 
     parser.add_argument('--auction_size', default=20, type=int, help='Size of Auction')
-    parser.add_argument('--n_rnd_auction', default=5000, type=int, help='Number of randomized auctions')
-    parser.add_argument('--n_auctions', default=30000, type=int, help='Number of auctions for control and treatment')
-    parser.add_argument('--epsilon', default = .5, type=float, help='Noise to add to pclicks prior to sorting')
+    parser.add_argument('--n_rnd_auction', default=10000, type=int, help='Number of randomized auctions')
+    parser.add_argument('--n_auctions', default=100000, type=int, help='Number of auctions for control and treatment')
+    parser.add_argument('--epsilon', default = .1, type=float, help='Noise to add to pclicks prior to sorting')
 
-    parser.add_argument('--control_reserve', default=.2, type=float, help='Reserve on Control Flight')
-    parser.add_argument('--treatment_reserve', default=.5, type=float, help='Reserve on Treatment Flight')
+    parser.add_argument('--control_reserve', default=.5, type=float, help='Reserve on Control Flight')
+    parser.add_argument('--treatment_reserve', default=.7, type=float, help='Reserve on Treatment Flight')
     parser.add_argument('--max_slate', default=5, type=float, help='Maximum slate size')
     args = parser.parse_args()
 
@@ -39,6 +39,7 @@ if __name__ == '__main__':
     X, y =  make_classification(  n_samples=args.n_tr_samples + args.n_te_cnt_samples + args.n_te_trt_samples + args.n_te_rnd_samples
                                 , n_features=args.n_features
                                 , n_informative=args.n_informative
+                                , n_redundant=0
                                 , n_clusters_per_class=args.n_clusters_per_class
                                 , class_sep=args.class_sep
                                 , random_state=args.seed)
