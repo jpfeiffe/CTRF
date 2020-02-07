@@ -1,13 +1,14 @@
 import pandas
 import numpy as np
-
+import time
 from sklearn.ensemble import RandomForestClassifier
 
 def train_rf(X, y, seed, **kwargs):
+    start = time.time()
     seed += 1
-    model = RandomForestClassifier(criterion='entropy', oob_score=True, random_state=seed, **kwargs)
+    model = RandomForestClassifier(criterion='entropy', random_state=seed, **kwargs)
     model.fit(X, y)
-
+    print('Runtime:', time.time()-start)
     seed += 1
     return model, seed
 
