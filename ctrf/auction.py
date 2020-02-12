@@ -14,7 +14,14 @@ def run_selection(seed, n_samples, auction_size, n_auctions):
     ind = np.random.randint(0, n_samples, size=auction_size*n_auctions)
     return ind, seed+1
 
-def run_auction(dataset, seed, model, epsilon, auction_size, n_auctions, max_slate):
+def sample_true(x):
+    if any(x):
+        return np.random.choice(np.where(x)[0])
+    else:
+        return np.random.choice(np.where(x==False)[0])
+    
+
+def run_auction(dataset, seed, model, epsilon, auction_size, n_auctions, max_slate, position_effect=0):
     seed += 1
     np.random.seed(seed)
 
@@ -67,19 +74,33 @@ def run_auction(dataset, seed, model, epsilon, auction_size, n_auctions, max_sla
         df['Layout'] = df.groupby('AuctionId')['AuctionId'].transform('count')
 
     # Rank by PClick, then cascade to generate clicks
+    # Effect for Position is Zero
     df['Uniform'] = np.random.uniform(size=len(df))
     df['WouldClick'] = np.where(df['Uniform'] <= df['TruePClick'], 1, 0)
     df['Click'] = 0
-    df.loc[df["WouldClick"].ne(0).groupby(df['AuctionId']).idxmax(),'Click']=1
-    df['Click'] = df['Click'] * df['WouldClick']
+    if position_effect==1:
+        df.loc[df["WouldClick"].ne(0).groupby(df['AuctionId']).idxmax(),'Click']=1
+    else:
+        sample_id = df['WouldClick'].ne(0).groupby(df['AuctionId']).apply(sample_true)
+        group_id = df['WouldClick'].ne(0).groupby(df['AuctionId']).groups
+        idx=[]
+        for k,v in group_id.items():
+            idx.append(group_id[k][sample_id[k]])
+        df.loc[idx,'Click']=1
 
+    df['Click'] = df['Click'] * df['WouldClick']
     df.drop(columns=['Uniform', 'WouldClick', 'RankingPClick', 'TruePClick'], inplace=True)
+
+
+
 
     return df, seed+1
 
 def construct_auction_dataset(dataset):
     X = np.hstack((dataset['auctions'][['PClick', 'Position', 'Layout']], dataset['X'][dataset['auctions']['SampleId']]))
-    y = dataset['y'][dataset['auctions']['SampleId']]
+    #y = dataset['y'][dataset['auctions']['SampleId']]
+    y = dataset['auctions']['Click']
+
 
     return X, y
 

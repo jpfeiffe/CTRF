@@ -1,0 +1,9 @@
+python run_auction.py --treatment_reserve 0.5 --n_auctions  25000 --n_rnd_auction 10000 --n_experiments 50 &
+python run_auction.py --treatment_reserve 0.55 --n_auctions  25000 --n_rnd_auction 10000 --n_experiments 50 &
+python run_auction.py --treatment_reserve 0.60 --n_auctions  25000 --n_rnd_auction 10000 --n_experiments 50 &
+python run_auction.py --treatment_reserve 0.65 --n_auctions 25000 --n_rnd_auction 10000 --n_experiments 50 &
+python run_auction.py --treatment_reserve 0.70 --n_auctions  25000 --n_rnd_auction 10000 --n_experiments 50 &
+python run_auction.py --treatment_reserve 0.75 --n_auctions  25000 --n_rnd_auction 10000 --n_experiments 50 &
+python run_auction.py --treatment_reserve 0.80 --n_auctions  25000 --n_rnd_auction 10000 --n_experiments 50 &
+python run_auction.py --treatment_reserve 0.85 --n_auctions 25000 --n_rnd_auction 10000 --n_experiments 50 &
+python run_auction.py --treatment_reserve 0.90 --n_auctions  25000 --n_rnd_auction 10000 --n_experiments 50 &
