@@ -81,13 +81,13 @@ if __name__ == '__main__':
                for name, auction_type, reserve in
                zip(['oracle', 'cnt', 'trt', 'rnd'], [None, 'greedy', 'greedy', 'random'],
                    [None, args.control_reserve, args.treatment_reserve, 0])}
-    # if os.path.isdir('results'):
-    #     print('result directory existed')
-    # else:
-    #     os.mkdir("results")
-    #     print("result directory added")
+    if os.path.isdir('results'):
+         print('result directory existed')
+    else:
+        os.mkdir("results")
+        print("result directory added")
 
-    path = "results_position_null/"
+    path = "results/"
     os.chdir(path)
 
     for i in range(args.n_experiments):

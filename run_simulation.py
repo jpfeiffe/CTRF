@@ -1,6 +1,6 @@
 import argparse
 import numpy as np
-from simulation.util import *
+from ctrf.util import *
 from ctrf.metrics import *
 from ctrf.models import *
 from ctrf.auction import *
